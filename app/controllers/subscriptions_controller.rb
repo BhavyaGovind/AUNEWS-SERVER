@@ -27,6 +27,7 @@ class SubscriptionsController < ApplicationController
       if @subscription.save
         format.html { redirect_to @subscription, notice: "Subscription was successfully created." }
         format.json { render :show, status: :created, location: @subscription }
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @subscription.errors, status: :unprocessable_entity }
