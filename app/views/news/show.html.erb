@@ -1,34 +1,37 @@
 <p id="notice"><%= notice %></p>
-
-<p>
+<div>
+  <div>
   <strong>Title:</strong>
   <%= @news.title %>
-</p>
+  </div>
 
-<p>
+  <div>
   <strong>Subtitle:</strong>
   <%= @news.subtitle %>
-</p>
+  </div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @news.description %>
-</p>
+  <div>
+    <strong>Description:</strong>
+    <%= @news.description %>
+  </div>
 
-<p>
-  <strong>Image:</strong>
-  <%= @news.image %>
-</p>
+  <div>
+    <strong>Image:</strong>
+    <%= cl_image_tag (@news.image), :width=>300 , :fetch_format=>:auto, :crop=>"scale"%>
+  </div>
 
-<p>
-  <strong>Link:</strong>
-  <%= @news.link %>
-</p>
+  <div>
+    <strong>Link:</strong>
+    <%= link_to @news.link , @news.link %>
+  </div>
 
-<p>
-  <strong>Video:</strong>
-  <%= @news.video %>
-</p>
+  <div>
+    <strong>Video:</strong>
+    <%= @news.video%>
+  </div>
 
-<%= link_to 'Edit', edit_news_path(@news) %> |
-<%= link_to 'Back', news_index_path %>
+  <div>
+    <%= link_to 'Edit', edit_news_path(@news) %> |
+    <%= link_to 'Back', news_index_path %>
+  </div>
+</div>

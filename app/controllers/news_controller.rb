@@ -15,13 +15,24 @@ class NewsController < ApplicationController
     @news = News.new
   end
 
-  # GET /news/1/edit
+  # GET
   def edit
   end
 
-  # POST /news or /news.json
+  # POST
   def create
     @news = News.new(news_params)
+    if params[:news][:image].present?
+      req = Cloudinary::Uploader.upload(params[:news][:image])#request cloudinary for image and save in variable
+      @news.image = req["public_id"].to_s
+      @news.save #append image to listing
+    end
+
+    if params[:news][:video].present?
+      req = Cloudinary::Uploader.upload(params[:news][:video])#request cloudinary for image and save in variable
+      @news.video = req["public_id"]
+      @news.video #append image to listing
+    end
 
     respond_to do |format|
       if @news.save
@@ -34,8 +45,22 @@ class NewsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /news/1 or /news/1.json
   def update
+    @news = News.find(params[:id])
+
+    if params[:news][:image].present?
+      req = Cloudinary::Uploader.upload(params[:news][:image])#request cloudinary for image and save in variable
+      @news.image = req["public_id"].to_s
+      @news.update_attributes news_params
+      @news.save
+    end
+    if params[:news][:video].present?
+      req = Cloudinary::Uploader.upload(params[:news][:video])#request cloudinary for image and save in variable
+      @news.video = req["public_id"]
+      @news.update_attributes news_params
+      @news.save
+    end
+
     respond_to do |format|
       if @news.update(news_params)
         format.html { redirect_to @news, notice: "News was successfully updated." }
@@ -47,7 +72,7 @@ class NewsController < ApplicationController
     end
   end
 
-  # DELETE /news/1 or /news/1.json
+  # DELETE
   def destroy
     @news.destroy
     respond_to do |format|
@@ -64,6 +89,6 @@ class NewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def news_params
-      params.require(:news).permit(:title, :subtitle, :description, :image, :link, :video)
+      params.require(:news).permit(:title, :subtitle, :description, :link, :video)
     end
 end
