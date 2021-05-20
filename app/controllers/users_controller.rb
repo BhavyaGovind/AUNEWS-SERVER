@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-
+  before_action :check_for_admin, :only => [:index]
   # GET /users or /users.json
   def index
     @users = User.all
@@ -15,16 +15,12 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  # GET /users/1/edit
-  def edit
-  end
-
   # POST /users or /users.json
   def create
     @user = User.new(user_params)
-
     respond_to do |format|
       if @user.save
+        session[:user_id] = @user.id
         format.html { redirect_to @user, notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
@@ -33,9 +29,16 @@ class UsersController < ApplicationController
       end
     end
   end
-
+  # GET /users/1/edit
+  def edit
+    @user = User.find params[:id]
+  end
   # PATCH/PUT /users/1 or /users/1.json
   def update
+    user = User.find params[:id]
+    user.update user_params
+    redirect_to user_path(@current_user.id)
+
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: "User was successfully updated." }
@@ -64,6 +67,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :email, :password_digest, :admin, :phone_number)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin, :phone_number)
     end
 end

@@ -1,6 +1,6 @@
 class NewsController < ApplicationController
   before_action :set_news, only: %i[ show edit update destroy ]
-
+  before_action :check_for_admin
   # GET /news or /news.json
   def index
     @news = News.all
