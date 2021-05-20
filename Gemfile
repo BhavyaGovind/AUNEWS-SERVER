@@ -28,6 +28,8 @@ gem 'rack-cors'
 gem 'httparty'
 gem 'json'
 gem 'uri'
+
+gem 'execjs', '2.7.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
