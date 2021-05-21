@@ -3,7 +3,7 @@ class NewsController < ApplicationController
   before_action :check_for_admin, :except => [:index]
   # GET /news or /news.json
   def index
-    @news = News.all
+    @news = News.all.order("created_at DESC")
   end
 
   # GET /news/1 or /news/1.json
