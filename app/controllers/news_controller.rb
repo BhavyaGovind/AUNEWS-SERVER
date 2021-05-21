@@ -74,6 +74,7 @@ class NewsController < ApplicationController
 
   # DELETE
   def destroy
+    @news = News.find params[:id]
     @news.destroy
     respond_to do |format|
       format.html { redirect_to news_index_url, notice: "News was successfully destroyed." }
